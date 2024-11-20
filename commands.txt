@@ -1,0 +1,3 @@
+ADD Apple
+REMOVE Banana
+LIST
