@@ -6,14 +6,23 @@ class Product:
     ProductName: str
     UrgencyLevel: {"LOW", "MEDIUM", "HIGH"}
     Quantity: int
-    Price: float
     Brand: str = None
+
+class Prices:
+	ProductName = str
+	StoreName = str
+	Price = float
     
-Cart = []
-Stores = []
+Cart = []	#list of Products in the cart
+Stores = []	#list of Store Names
+StorePrices = []	#list of Prices of products in different stores
 
 def show (CartName):
-    print(CartName)
+	if(CartName.size() == 0):
+		print("Error: Cart is empty.")  #ERROR NOT DEFINED
+		return
+	#for i in range(len(Cart)):
+		
 
 #def showUrg (UrgencyLevel): #shows all the products that are in the cart based on the urgency level specified
     
@@ -26,7 +35,7 @@ def addProf (ProductName, UrgencyLevel, Quantity, Price): #Brand????
     elif(Quantity == ""):
         print("Error: Quantity is empty.")
     elif(Price == ""):
-        print("Error: Price is empty.")"""
+        print("Error: Price is empty.") """
     if(UrgencyLevel != "LOW" and UrgencyLevel != "MEDIUM" and UrgencyLevel != "HIGH"):
         print("Error: Invalid urgency level.")  #ERROR NOT DEFINED
     elif(Quantity < 0):
