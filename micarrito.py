@@ -75,7 +75,7 @@ def showUrg (UrgencyLevel): #shows all the products that are in the cart based o
 	if(count == 0):
 		print("No products found with the specified urgency level.")
     
-def addProd (ProductName, UrgencyLevel, Quantity, Brand, Price, StoreName):
+def addProd (ProductName, UrgencyLevel, Quantity, BrandName, Price, StoreName):
 	if(ProductName == ""):
 		print("Error: Product name is empty.")
 		return
@@ -124,10 +124,10 @@ def addProd (ProductName, UrgencyLevel, Quantity, Brand, Price, StoreName):
 			found = 0
 			for j in range(len(Brands)):
 				#check if the product is already in the Brands list -> add the brand
-				if(ProductName == Brands[j].ProductName and Brand != Brands[j].Brand):
+				if(ProductName == Brands[j].ProductName and BrandName != Brands[j].Brand):
 					found = 1
 			if(found == 1):
-				Brands.append(Brand(ProductName, Brand))
+				Brands.append(Brand(ProductName, BrandName))
 			return
 	#add the product to the cart (if it is not already there)
 	Cart.append(Product(ProductName, UrgencyLevel, Quantity))
