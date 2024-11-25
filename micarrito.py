@@ -40,7 +40,7 @@ def findCheapestStore (ProductName):	#returns the store with the cheapest price 
 	return min
 
 def show (CartName):
-	if(CartName.size() == 0):
+	if(len(CartName) == 0):
 		print("Cart is empty.")
 		return
 	totalPrice = 0.0
