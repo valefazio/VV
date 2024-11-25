@@ -7,11 +7,13 @@ class Product:
     UrgencyLevel: {"LOW", "MEDIUM", "HIGH"}
     Quantity: int
 
+@dataclass
 class PricexStore:
 	ProductName = str
 	StoreName = str
 	Price = float
 
+@dataclass
 class Brand:
 	ProductName = str
 	Brand = str
