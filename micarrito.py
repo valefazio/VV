@@ -258,7 +258,10 @@ def process_commands(file_name):
 				if func:
 					try:
 						# Call the function with unpacked arguments
-						func(*cmd_args)
+						if cmd_name == "show" or cmd_name == "showUrg":
+							func(Cart, *cmd_args)
+						else:
+							func(*cmd_args)
 					except TypeError as e:
 						print(f"Error: Incorrect arguments for command '{cmd_name}'. {e}")
 				else:
