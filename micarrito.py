@@ -9,14 +9,14 @@ class Product:
 
 @dataclass
 class PricexStore:
-	ProductName = str
-	StoreName = str
-	Price = float
+	ProductName: str
+	StoreName: str
+	Price: float
 
 @dataclass
 class Brand:
-	ProductName = str
-	Brand = str
+	ProductName: str
+	Brand: str
     
 Cart = []	#list of Products in the cart
 Stores = []	#list of Store Names
