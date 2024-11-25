@@ -85,7 +85,7 @@ def addProd (ProductName, UrgencyLevel, Quantity, BrandName, Price, StoreName):
 	elif(Quantity == ""):
 		print("Error: Quantity is empty.")
 		return
-	elif(Brand == ""):
+	elif(BrandName == ""):
 		print("Error: Brand is empty.")
 		return
 	elif(Price == ""):
@@ -131,8 +131,6 @@ def addProd (ProductName, UrgencyLevel, Quantity, BrandName, Price, StoreName):
 			return
 	#add the product to the cart (if it is not already there)
 	Cart.append(Product(ProductName, UrgencyLevel, Quantity))
-	StorePrices.append(PricexStore(ProductName, StoreName, Price))
-	Brands.append(Brand(ProductName, Brand))
 
 def remvProd (ProductName):
 	count = 0
@@ -211,11 +209,11 @@ def remvStore (StoreName):
 			return
 	print("Error: Store not found.")
       
-def addBrand (ProductName, Brand):
+def addBrand (ProductName, BrandName):
 	found = 0
 	for i in range(len(Cart)):
 		if(ProductName == Cart[i].ProductName):
-			if(Brand == Brands[i].Brand):
+			if(BrandName == Brands[i].Brand):
 				print("Error: Brand already exists for this product.")
 				return
 			found = 1
@@ -223,7 +221,7 @@ def addBrand (ProductName, Brand):
 		print("Error: Product not found in cart.")
 		return
 	if(found == 1):
-		Brands.append(Brand(ProductName, Brand))
+		Brands.append(Brand(ProductName, BrandName))
 
 import sys
 
