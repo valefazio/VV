@@ -131,6 +131,8 @@ def addProd (ProductName, UrgencyLevel, Quantity, Brand, Price, StoreName):
 			return
 	#add the product to the cart (if it is not already there)
 	Cart.append(Product(ProductName, UrgencyLevel, Quantity))
+	StorePrices.append(PricexStore(ProductName, StoreName, Price))
+	Brands.append(Brand(ProductName, Brand))
 
 def remvProd (ProductName):
 	count = 0
