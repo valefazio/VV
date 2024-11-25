@@ -63,7 +63,7 @@ def showUrg (UrgencyLevel): #shows all the products that are in the cart based o
 	for i in range(len(Cart)):
 		if(UrgencyLevel == Cart[i].UrgencyLevel):
 			print(f"Product: {Cart[i].ProductName}, Quantity: {Cart[i].Quantity}")
-			min = findCheapest(Cart[i].ProductName)
+			min = findCheapestStore(Cart[i].ProductName)
 			print(f"Cheapest price: {min[0]} at {min[1]}")
 			count += 1
 			print("Product available in the following brands:")
@@ -221,29 +221,53 @@ def addBrand (ProductName, Brand):
 	if(found == 1):
 		Brands.append(Brand(ProductName, Brand))
 
-def process_commands(file_name):
-    try:
-        with open(file_name, 'r') as file:
-            commands = file.readlines()
-            for command in commands:
-                switcher = {
-                    "show": show(command[5:]),
-					"addProd": addProd(command[4:]),
-					"showUrg": showUrg(command[6:]),
-					"remvProd": remvProd(command[7:]),
-					"editUrg": editUrg(command[7:]),
-					"editQuantity": editQuantity(command[12:]),
-					"editPrice": editPrice(command[9:]),
-					"addStore": addStore(command[8:]),
-					"remvStore": remvStore(command[9:]),
-					"findCheapestStore": findCheapestStore(command[17:]),
-                    }
-                switcher.get(command[:4], lambda: print("Error: Invalid command '{}'.".format(command[:4]))())	#Error: Invalid command '<CommandName>'
+import sys
 
-    except FileNotFoundError:
-        print(f"Error: File '{file_name}' not found.")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+def process_commands(file_name):
+	try:
+		with open(file_name, 'r') as file:
+			commands = file.readlines()
+
+			for command in commands:
+				# Strip whitespace and split into command and arguments
+				command_parts = command.strip().split()
+				#make everything lowercase
+				command_parts = [part.lower() for part in command_parts]
+				if not command_parts:
+					continue  # Skip empty lines
+                
+				cmd_name = command_parts[0]
+				cmd_args = command_parts[1:]
+
+				# Define the command-to-function mapping
+				switcher = {
+                    "show": show,
+                    "addProd": addProd,
+                    "showUrg": showUrg,
+                    "remvProd": remvProd,
+                    "editUrg": editUrg,
+                    "editQuantity": editQuantity,
+                    "editPrice": editPrice,
+                    "addStore": addStore,
+                    "remvStore": remvStore,
+					"findCheapestStore": findCheapestStore,
+				}
+
+				# Get the function from the switcher
+				func = switcher.get(cmd_name)
+				if func:
+					try:
+						# Call the function with unpacked arguments
+						func(*cmd_args)
+					except TypeError as e:
+						print(f"Error: Incorrect arguments for command '{cmd_name}'. {e}")
+				else:
+					print(f"Error: Invalid command '{cmd_name}'.")
+
+	except FileNotFoundError:
+		print(f"Error: File '{file_name}' not found.")
+	except Exception as e:
+		print(f"An error occurred: {e}")
 
 def main():
     if len(sys.argv) != 2:
