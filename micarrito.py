@@ -128,7 +128,7 @@ def addProd (ProductName, UrgencyLevel, Quantity, Brand, Price, StoreName):
 				Brands.append(Brand(ProductName, Brand))
 			return
 	#add the product to the cart (if it is not already there)
-	Cart.append(Product(ProductName, UrgencyLevel, Quantity, Price))
+	Cart.append(Product(ProductName, UrgencyLevel, Quantity))
 
 def remvProd (ProductName):
 	count = 0
@@ -231,8 +231,6 @@ def process_commands(file_name):
 			for command in commands:
 				# Strip whitespace and split into command and arguments
 				command_parts = command.strip().split()
-				#make everything lowercase
-				command_parts = [part.lower() for part in command_parts]
 				if not command_parts:
 					continue  # Skip empty lines
                 
@@ -259,9 +257,46 @@ def process_commands(file_name):
 					try:
 						# Call the function with unpacked arguments
 						if cmd_name == "show" or cmd_name == "showUrg":
-							func(Cart, *cmd_args)
-						else:
+							func(Cart)
+						elif cmd_name == "findCheapestStore":
 							func(*cmd_args)
+						elif cmd_name == "addProd":
+							# Parse arguments: ProductName, UrgencyLevel, Quantity, Brand, Price, StoreName
+							try:
+								product_name = cmd_args[0]
+								urgency_level = cmd_args[1].upper()  # Ensure urgency level is uppercase
+								quantity = int(cmd_args[2])
+								brand = cmd_args[3]
+								price = float(cmd_args[4])
+								store_name = cmd_args[5]
+								func(product_name, urgency_level, quantity, brand, price, store_name)
+							except (ValueError, IndexError) as e:
+								print(f"Error: Incorrect arguments for command '{cmd_name}'. {e}")
+						elif cmd_name == "editUrg":
+							# Parse arguments: ProductName, UrgencyLevel
+							product_name = cmd_args[0]
+							urgency_level = cmd_args[1].upper()
+							func(product_name, urgency_level)
+						elif cmd_name == "editQuantity":
+							# Parse arguments: ProductName, Quantity
+							product_name = cmd_args[0]
+							quantity = int(cmd_args[1])
+							func(product_name, quantity)
+						elif cmd_name == "editPrice":
+							# Parse arguments: ProductName, StoreName, Price
+							product_name = cmd_args[0]
+							store_name = cmd_args[1]
+							price = float(cmd_args[2])
+							func(product_name, store_name, price)
+						elif cmd_name == "addStore" or cmd_name == "remvStore":
+							# Parse arguments: StoreName
+							store_name = cmd_args[0]
+							func(store_name)
+						elif cmd_name == "addBrand":
+							# Parse arguments: ProductName, Brand
+							product_name = cmd_args[0]
+							brand = cmd_args[1]
+							func(product_name, brand)
 					except TypeError as e:
 						print(f"Error: Incorrect arguments for command '{cmd_name}'. {e}")
 				else:
