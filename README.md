@@ -7,10 +7,6 @@
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Running Tests](#running-tests)
-- [Viewing Coverage Report](#viewing-coverage-report)
-- [Project Structure](#project-structure)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## 🚀 Introduction
 
