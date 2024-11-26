@@ -1,0 +1,25 @@
+addStore Walmart
+addStore Target
+
+addProd Milk HIGH 2 BrandA 1.50 Walmart
+addProd Bread MEDIUM 1 BrandB 2.00 Target
+addProd Eggs LOW 12 BrandC 0.20 Walmart
+
+show
+
+showUrg HIGH
+showUrg MEDIUM
+showUrg LOW
+
+editQuantity Milk 3
+editUrg Eggs HIGH
+editPrice Bread Target 1.80
+
+remvProd Milk
+
+findCheapestStore Eggs
+
+addBrand Eggs BrandD
+
+remvStore Walmart
+remvStore Target
