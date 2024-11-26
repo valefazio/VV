@@ -94,7 +94,6 @@ On Linux:
 
 
 ```bash
-Copia codice
 xdg-open coverage_report/index.html
 ```
 
