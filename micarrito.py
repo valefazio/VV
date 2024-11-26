@@ -253,6 +253,7 @@ def process_commands(file_name):
                     "addStore": addStore,
                     "remvStore": remvStore,
 					"findCheapestStore": findCheapestStore,
+					"addBrand": addBrand
 				}
 
 				# Get the function from the switcher
