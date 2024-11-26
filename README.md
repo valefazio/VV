@@ -7,6 +7,7 @@
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Running Tests](#running-tests)
+- [Writing Tests](#writing-tests)
 
 ## 🚀 Introduction
 
@@ -74,11 +75,11 @@ pytest
 
 
 
-### **3. Writing a Test**
+## Writing Tests**
 
 Here's a step-by-step guide to adding a new test:
 
-#### **a. Create a New Test File**
+### **a. Create a New Test File**
 
 - Create a new file in the `tests/` directory.
 - Ensure the file name start with `test_*`.
@@ -87,7 +88,7 @@ Here's a step-by-step guide to adding a new test:
   touch tests/test_new_feature.py
   ```
 
-#### **b. Import Necessary Modules**
+### **b. Import Necessary Modules**
 
 - Import the module or function you want to test.
 - Adjust the import paths as necessary.
@@ -96,7 +97,7 @@ Here's a step-by-step guide to adding a new test:
   import project.some_module
   ```
 
-#### **c. Write Test Functions**
+### **c. Write Test Functions**
 
 - Define test functions starting with `test_`.
 - Use assertions to verify expected outcomes.
@@ -106,51 +107,6 @@ Here's a step-by-step guide to adding a new test:
       result = micarrito.some_module.new_feature()
       assert result == expected_value
   ```
-
-
-
-### **4. Running Your New Tests**
-
-- After adding your test, run `pytest` to execute all tests, including the new ones.
-  ```bash
-  pytest
-  ```
-- To run a specific test file:
-  ```bash
-  pytest tests/test_new_feature.py
-  ```
-- To run a specific test function within a file:
-  ```bash
-  pytest tests/test_new_feature.py::test_new_feature_behavior
-  ```
-
-
-
-
-
-### **Viewing the HTML Coverage Report**
-
-After running the coverage command, open the HTML report in your default web browser:
-
-- **On macOS:**
-
-  ```bash
-  open coverage_report/index.html
-  ```
-
-- **On Windows:**
-
-  ```bash
-  start coverage_report\index.html
-  ```
-
-- **On Linux:**
-
-  ```bash
-  xdg-open coverage_report/index.html
-  ```
-
-*Alternatively, navigate to the `coverage_report/` directory and open `index.html` manually.*
 
 
 
