@@ -75,7 +75,7 @@ pytest
 
 
 
-## Writing Tests**
+## Writing Tests
 
 Here's a step-by-step guide to adding a new test:
 
@@ -104,7 +104,7 @@ Here's a step-by-step guide to adding a new test:
 - Example:
   ```python
   def test_new_feature_behavior():
-      result = micarrito.some_module.new_feature()
+      result = project.some_module.new_feature()
       assert result == expected_value
   ```
 
