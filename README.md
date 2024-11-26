@@ -54,6 +54,8 @@ Run all tests using `pytest`:
 pytest
 ```
 
+
+
 ### **Verbose Output**
 
 For more detailed output, use the `-v` flag:
@@ -70,11 +72,61 @@ pytest -v
 pytest
 ```
 
-### **Explanation of Flags**
 
-- `--cov=micarrito`: Measures coverage for the `micarrito` module.
-- `--cov-report=term`: Displays a coverage summary in the terminal.
-- `--cov-report=html:coverage_report`: Generates a detailed HTML coverage report in the `coverage_report/` directory.
+
+### **3. Writing a Test**
+
+Here's a step-by-step guide to adding a new test:
+
+#### **a. Create a New Test File**
+
+- Create a new file in the `tests/` directory.
+- Ensure the file name start with `test_*`.
+- Example:
+  ```bash
+  touch tests/test_new_feature.py
+  ```
+
+#### **b. Import Necessary Modules**
+
+- Import the module or function you want to test.
+- Adjust the import paths as necessary.
+- Example:
+  ```python
+  import project.some_module
+  ```
+
+#### **c. Write Test Functions**
+
+- Define test functions starting with `test_`.
+- Use assertions to verify expected outcomes.
+- Example:
+  ```python
+  def test_new_feature_behavior():
+      result = micarrito.some_module.new_feature()
+      assert result == expected_value
+  ```
+
+
+
+### **4. Running Your New Tests**
+
+- After adding your test, run `pytest` to execute all tests, including the new ones.
+  ```bash
+  pytest
+  ```
+- To run a specific test file:
+  ```bash
+  pytest tests/test_new_feature.py
+  ```
+- To run a specific test function within a file:
+  ```bash
+  pytest tests/test_new_feature.py::test_new_feature_behavior
+  ```
+
+
+
+
 
 ### **Viewing the HTML Coverage Report**
 
@@ -102,6 +154,8 @@ After running the coverage command, open the HTML report in your default web bro
 
 
 
+
+
 ## 📚 Additional Resources
 
 - [pytest Documentation](https://docs.pytest.org/en/stable/)
@@ -110,4 +164,8 @@ After running the coverage command, open the HTML report in your default web bro
 - [GitHub Guides](https://guides.github.com/)
 
 ---
+
+
+
+
 
