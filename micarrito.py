@@ -49,13 +49,13 @@ def show (CartName):
 	for i in range(len(Cart)):
 		print(f"Product: {Cart[i].ProductName}, Urgency Level: {Cart[i].UrgencyLevel}, Quantity: {Cart[i].Quantity}")
 		min = findCheapestStore(Cart[i].ProductName)
-		print(f"Cheapest price: {min[0]} at {min[1]}")
+		print(f"Cheapest price: € {min[0]} at {min[1]}")
 		totalPrice += min[0] * Cart[i].Quantity
 		print("Product available in the following brands:")
 		for j in range(len(Brands)):
 			if(Cart[i].ProductName == Brands[j].ProductName):
 				print(f"{Brands[j].Brand}")
-	print(f"Total price: {totalPrice}")
+	print(f"Total price: € {totalPrice}")
 
 def showUrg (UrgencyLevel): #shows all the products that are in the cart based on the urgency level specified
 	if(UrgencyLevel != "LOW" and UrgencyLevel != "MEDIUM" and UrgencyLevel != "HIGH"):
@@ -66,7 +66,7 @@ def showUrg (UrgencyLevel): #shows all the products that are in the cart based o
 		if(UrgencyLevel == Cart[i].UrgencyLevel):
 			print(f"Product: {Cart[i].ProductName}, Quantity: {Cart[i].Quantity}")
 			min = findCheapestStore(Cart[i].ProductName)
-			print(f"Cheapest price: {min[0]} at {min[1]}")
+			print(f"Cheapest price: € {min[0]} at {min[1]}")
 			count += 1
 			print("Product available in the following brands:")
 			for j in range(len(Brands)):
@@ -131,6 +131,8 @@ def addProd (ProductName, UrgencyLevel, Quantity, BrandName, Price, StoreName):
 			return
 	#add the product to the cart (if it is not already there)
 	Cart.append(Product(ProductName, UrgencyLevel, Quantity))
+	StorePrices.append(PricexStore(ProductName, StoreName, Price))
+	Brands.append(Brand(ProductName, BrandName))
 
 def remvProd (ProductName):
 	count = 0
