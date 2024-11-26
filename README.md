@@ -73,6 +73,32 @@ pytest -v
 pytest
 ```
 
+### Viewing the HTML Coverage Report
+After running the coverage command, open the HTML report in your default web browser:
+
+On macOS:
+
+
+```bash
+open coverage_report/index.html
+```
+
+On Windows:
+
+
+```bash
+start coverage_report\index.html
+```
+
+On Linux:
+
+
+```bash
+Copia codice
+xdg-open coverage_report/index.html
+```
+
+
 
 
 ## Writing Tests
