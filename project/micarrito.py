@@ -39,6 +39,7 @@ def findCheapestStore (ProductName):	#returns the store with the cheapest price 
 	for i in range(1, len(pricesIn)):
 		if(pricesIn[i][0] < min[0]):
 			min = [pricesIn[i][0], pricesIn[i][1]]
+	print(f"\tCheapest store for {ProductName} is {min[1]} that sells it at € {min[0]}")
 	return min
 
 def show (CartName):
@@ -49,12 +50,12 @@ def show (CartName):
 	for i in range(len(Cart)):
 		print(f"Product: {Cart[i].ProductName}, Urgency Level: {Cart[i].UrgencyLevel}, Quantity: {Cart[i].Quantity}")
 		min = findCheapestStore(Cart[i].ProductName)
-		print(f"Cheapest price: € {min[0]} at {min[1]}")
+		#print(f"\tCheapest price: € {min[0]} at {min[1]}")
 		totalPrice += min[0] * Cart[i].Quantity
-		print("Product available in the following brands:")
+		print("\tProduct available in the following brands:")
 		for j in range(len(Brands)):
 			if(Cart[i].ProductName == Brands[j].ProductName):
-				print(f"{Brands[j].Brand}")
+				print(f"\t* {Brands[j].Brand}")
 	print(f"Total price: € {totalPrice}")
 
 def showUrg (UrgencyLevel): #shows all the products that are in the cart based on the urgency level specified
@@ -66,12 +67,12 @@ def showUrg (UrgencyLevel): #shows all the products that are in the cart based o
 		if(UrgencyLevel == Cart[i].UrgencyLevel):
 			print(f"Product: {Cart[i].ProductName}, Quantity: {Cart[i].Quantity}")
 			min = findCheapestStore(Cart[i].ProductName)
-			print(f"Cheapest price: € {min[0]} at {min[1]}")
+			#print(f"\tCheapest price: € {min[0]} at {min[1]}")
 			count += 1
-			print("Product available in the following brands:")
+			print("\tProduct available in the following brands:")
 			for j in range(len(Brands)):
 				if(Cart[i].ProductName == Brands[j].ProductName):
-					print(f"{Brands[j].Brand}")
+					print(f"\t* {Brands[j].Brand}")
 	if(count == 0):
 		print("No products found with the specified urgency level.")
     
@@ -109,30 +110,36 @@ def addProd (ProductName, UrgencyLevel, Quantity, BrandName, Price, StoreName):
 			Cart[i].Quantity = Quantity
 			Cart[i].UrgencyLevel = UrgencyLevel
 
+			#check if the product is already in the StorePrices list and the store is the same
 			found = 0
 			for j in range(len(StorePrices)):
-				#check if the product is already in the StorePrices list and the store is the same -> update the price
 				if(ProductName == StorePrices[j].ProductName):
 					if(StoreName == StorePrices[j].StoreName):
 						StorePrices[j].Price = Price
-						return
+						break
 					else:
 						found = 1
 			if(found == 1):
 				StorePrices.append(PricexStore(ProductName, StoreName, Price))
 
+			#check if the product is already in the Brands list and the brand is the same
 			found = 0
 			for j in range(len(Brands)):
-				#check if the product is already in the Brands list -> add the brand
-				if(ProductName == Brands[j].ProductName and BrandName != Brands[j].Brand):
-					found = 1
+				if(ProductName == Brands[j].ProductName):
+					if(BrandName != Brands[j].Brand):
+						found = 1
+					else:
+						print("Error: Brand already exists for this product.")
+						return
 			if(found == 1):
 				Brands.append(Brand(ProductName, BrandName))
+			print(f"Product {ProductName} correctly updated in cart.")
 			return
 	#add the product to the cart (if it is not already there)
 	Cart.append(Product(ProductName, UrgencyLevel, Quantity))
 	StorePrices.append(PricexStore(ProductName, StoreName, Price))
 	Brands.append(Brand(ProductName, BrandName))
+	print(f"Product {ProductName} correctly added to cart.")
 
 def remvProd (ProductName):
 	count = 0
@@ -143,12 +150,14 @@ def remvProd (ProductName):
 			break
 	if(count == 0):	#product not found in the cart
 		print("Error: Product not found in cart.")
+		return
 	for i in range(len(StorePrices)):	#remove the product from the StorePrices list
 		if(ProductName == StorePrices[i].ProductName):
 			StorePrices.pop(i)
 	for i in range(len(Brands)):	#remove the product from the Brands list
 		if(ProductName == Brands[i].ProductName):
 			Brands.pop(i)
+	print(f"Product {ProductName} correctly removed from cart.")
 
 def editUrg (ProductName, UrgencyLevel):
 	if(UrgencyLevel != "LOW" and UrgencyLevel != "MEDIUM" and UrgencyLevel != "HIGH"):
@@ -157,6 +166,7 @@ def editUrg (ProductName, UrgencyLevel):
 	for i in range(len(Cart)):
 		if(ProductName == Cart[i].ProductName):
 			Cart[i].UrgencyLevel = UrgencyLevel
+			print(f"Urgency level of {ProductName} correctly updated.")
 			return
 	print("Error: Product not found in cart.")
 
@@ -167,6 +177,7 @@ def editQuantity (ProductName, Quantity):
 	for i in range(len(Cart)):
 		if(ProductName == Cart[i].ProductName):
 			Cart[i].Quantity = Quantity
+			print(f"Quantity of {ProductName} correctly updated.")
 			return
 	print("Error: Product not found in cart.")
 
@@ -180,8 +191,10 @@ def editPrice (ProductName, StoreName, Price):
 	for i in range(len(StorePrices)):
 		if(ProductName == StorePrices[i].ProductName and StoreName == StorePrices[i].StoreName):
 			StorePrices[i].Price = Price
+			print(f"Price of {ProductName} at {StoreName} correctly updated.")
 			return
 	StorePrices.append(PricexStore(ProductName, StoreName, Price))
+	print(f"Price of {ProductName} at {StoreName} correctly added.")
 
 def addStore (StoreName):
 	for i in range(len(Stores)):
@@ -189,13 +202,7 @@ def addStore (StoreName):
 			print("Error: Store already exists.")
 			return
 	Stores.append(StoreName)
-
-def storesAt (ProductName):	#returns a list of stores that have the product
-	storesIn = []
-	for i in range(len(StorePrices)):
-		if(ProductName == StorePrices[i].ProductName):
-			storesIn.append(StorePrices[i].StoreName)
-	return storesIn
+	print(f"Store {StoreName} correctly added.")
 
 def remvStore (StoreName):
 	if(Stores.count(StoreName) == 0):
@@ -204,10 +211,11 @@ def remvStore (StoreName):
 	for i in range(len(Stores)):
 		if(StoreName == Stores[i]):
 			for j in range(len(Cart)):
-				if(storesAt(Cart[j].ProductName).count(StoreName) > 0):
+				if any(price.StoreName == StoreName for price in StorePrices):
 					print("Error: Store has products in cart.")
 					return
 			Stores.pop(i)
+			print(f"Store {StoreName} correctly removed.")
 			return
 	print("Error: Store not found.")
       
@@ -222,8 +230,9 @@ def addBrand (ProductName, BrandName):
 	if(found == 0):
 		print("Error: Product not found in cart.")
 		return
-	if(found == 1):
+	else:
 		Brands.append(Brand(ProductName, BrandName))
+		print(f"Brand {BrandName} correctly added to product {ProductName}.")
 
 import sys
 
