@@ -1,6 +1,13 @@
 import pytest
 from dataclasses import dataclass
 from project.micarrito import *  # Import functions from the file where they are defined
+ 
+
+def clear_data():
+    Cart.clear()
+    Stores.clear()
+    StorePrices.clear()
+    Brands.clear()
 
 
 # Sample data setup for testing
@@ -21,23 +28,26 @@ def setup_data():
     return
 
 
-def test_setup_data(setup_data):
+def test_same_data(setup_data):
     assert len(Cart) == 2
     assert Cart[0].ProductName == "Apple"
     assert Cart[1].UrgencyLevel == "LOW"
     assert Cart[1].ProductName == "Banana"
     assert any(Stores[i] == "StoreA" for i in range(len(Stores)))
     assert any(Stores[i] == "StoreB" for i in range(len(Stores)))
-    assert len(StorePrices == 2)
-
+    assert len(StorePrices) == 2
 
 
 # Test adding a product to the cart
-def test_add_product(setup_data):
+def test_add_product():
+    clear_data()
+    addStore("StoreA")
     addProd("Orange", "MEDIUM", 3, "BrandZ", 0.8, "StoreA")
-    assert len(Cart) == 3
-    assert Cart[2].ProductName == "Orange"
-    assert Cart[2].UrgencyLevel == "MEDIUM"
+    assert len(Cart) == 1
+    assert Cart[0].ProductName == "Orange"
+    assert Cart[0].UrgencyLevel == "MEDIUM"
+
+
 
 # Test removing a product from the cart
 def test_remove_product(setup_data):
