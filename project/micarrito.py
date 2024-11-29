@@ -109,7 +109,7 @@ def addProd (ProductName, UrgencyLevel, Quantity, BrandName, Price, StoreName):
 		if(ProductName == Cart[i].ProductName):
 			Cart[i].Quantity = Quantity
 			Cart[i].UrgencyLevel = UrgencyLevel
-
+			
 			#check if the product is already in the StorePrices list and the store is the same
 			found = 0
 			for j in range(len(StorePrices)):
@@ -130,8 +130,8 @@ def addProd (ProductName, UrgencyLevel, Quantity, BrandName, Price, StoreName):
 					if(BrandName != Brands[j].Brand):
 						found = 1
 					else:
-						print("Error: Brand already exists for this product.")
-						return
+						#print("Error: Brand already exists for this product.")
+						break
 			if(found == 1):
 				Brands.append(Brand(ProductName, BrandName))
 			print(f"Product {ProductName} correctly updated in cart.")
@@ -144,20 +144,20 @@ def addProd (ProductName, UrgencyLevel, Quantity, BrandName, Price, StoreName):
 
 def remvProd (ProductName):
 	count = 0
-	for i in range(len(Cart)):	#remove the product from the cart
-		if(ProductName == Cart[i].ProductName):
-			Cart.pop(i)
+	for item in Cart[:]:	#remove the product from the cart
+		if(ProductName == item.ProductName):
+			Cart.remove(item)
 			count += 1
 			break
 	if(count == 0):	#product not found in the cart
 		print("Error: Product not found in cart.")
 		return
-	for i in range(len(StorePrices)):	#remove the product from the StorePrices list
-		if(ProductName == StorePrices[i].ProductName):
-			StorePrices.pop(i)
-	for i in range(len(Brands)):	#remove the product from the Brands list
-		if(ProductName == Brands[i].ProductName):
-			Brands.pop(i)
+	for item in StorePrices[:]:	#remove the product from the StorePrices list
+		if(ProductName == item.ProductName):
+			StorePrices.remove(item)
+	for item in Brands[:]:	#remove the product from the Brands list
+		if(ProductName == item.ProductName):
+			Brands.remove(item)
 	print(f"Product {ProductName} correctly removed from cart.")
 
 def editUrg (ProductName, UrgencyLevel):
@@ -209,13 +209,13 @@ def remvStore (StoreName):
 	if(Stores.count(StoreName) == 0):
 		print("Error: Store not found.")
 		return
-	for i in range(len(Stores)):
-		if(StoreName == Stores[i]):
+	for i in Stores[:]:
+		if(StoreName == i):
 			for j in range(len(Cart)):
 				if any(price.StoreName == StoreName for price in StorePrices):
 					print("Error: Store has products in cart.")
 					return
-			Stores.pop(i)
+			Stores.remove(i)
 			print(f"Store {StoreName} correctly removed.")
 			return
 	#print("Error: Store not found.")
@@ -312,6 +312,10 @@ def process_commands(file_name):
 							product_name = cmd_args[0]
 							brand = cmd_args[1]
 							func(product_name, brand)
+						elif cmd_name == "remvProd":
+							# Parse arguments: ProductName
+							product_name = cmd_args[0]
+							func(product_name)							
 					except TypeError as e:
 						print(f"Error: Incorrect arguments for command '{cmd_name}'. {e}")
 				else:
