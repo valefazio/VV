@@ -116,6 +116,7 @@ def addProd (ProductName, UrgencyLevel, Quantity, BrandName, Price, StoreName):
 				if(ProductName == StorePrices[j].ProductName):
 					if(StoreName == StorePrices[j].StoreName):
 						StorePrices[j].Price = Price
+						print(f"Price of {ProductName} at {StoreName} correctly updated.")
 						break
 					else:
 						found = 1
@@ -217,7 +218,7 @@ def remvStore (StoreName):
 			Stores.pop(i)
 			print(f"Store {StoreName} correctly removed.")
 			return
-	print("Error: Store not found.")
+	#print("Error: Store not found.")
       
 def addBrand (ProductName, BrandName):
 	found = 0
