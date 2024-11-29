@@ -1,10 +1,10 @@
-addStore Walmart
-addStore Target
+addStore StoreA
+addStore StoreB
 
-addProd Milk HIGH 2 BrandA 1.50 Walmart
-addProd Bread MEDIUM 1 BrandB 2.00 Target
-addProd Milk HIGH 2 BrandB 1.50 Target
+addProd Apple HIGH 5 BrandX 1.20 StoreA
+addProd Apple HIGH 1 BrandX 1.00 StoreB
+addProd Banana LOW 2 BrandY 0.50 StoreA
 
-show
-
-
+remvProd Apple
+remvProd Banana
+remvStore StoreA
