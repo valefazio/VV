@@ -3,6 +3,8 @@ from dataclasses import dataclass
 from project.micarrito import *  # Import functions from the file where they are defined
 from tests.utils import *
 
+
+
 # Sample data setup for testing
 @pytest.fixture
 def setup_data():
@@ -20,19 +22,20 @@ def setup_data():
     addProd("Banana", "LOW", 10, "BrandY", 0.5, "StoreA")
     return
 
-
-
-
-# Test adding a product to the cart without stores
-def test_addStore_existing(setup_data,capsys):
-    addStore("StoreA")
+def test_showUrg_noData(setup_data, capsys):
+    clear_data()
+    showUrg("HIGH")
     captured = capsys.readouterr()
+    assert "No products found" in captured.out
 
-    assert "Error: Store already exists." in captured.out
+def test_showUrg(setup_data, capsys):
+    showUrg("HIGH")
+    captured = capsys.readouterr()
+    assert "Apple" in captured.out
+    assert "Banana" not in captured.out
 
-
-
-# Test adding a store
-def test_addStore():
-    addStore("StoreC")
-    assert "StoreC" in Stores
+# show urgency level with incorrect input
+def test_showUrg_wrongUrg(setup_data, capsys):
+    showUrg("Antonio")
+    captured = capsys.readouterr()
+    assert "Error: Invalid urgency level." in captured.out

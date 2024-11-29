@@ -25,18 +25,3 @@ def setup_data():
 
 
 
-# Test adding a product to the cart
-def test_show_noCart():
-    clear_data()
-    findCheapestStore("APPLE")
-    assert len(Cart) == 0
-
-
-# Test adding a product to the cart
-def test_show(setup_data):
-    findCheapestStore("APPLE")
-    assert cheapest_store[1] == "StoreB"
-    assert cheapest_store[0] == 1.0
-
-
-
