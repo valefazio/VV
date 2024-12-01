@@ -354,9 +354,9 @@ def process_commands(file_name):
                             product_name = cmd_args[0]
                             func(product_name)
                     except TypeError as e:
-                        print(f"Error: Incorrect arguments for command '{cmd_name}' on line {line_number}. {e}")
+                        print(f"Error: Incorrect arguments for command '{cmd_name}'")
                 else:
-                    print(f"Error: Invalid command '{cmd_name}' on line {line_number}.")
+                    print(f"Error: Invalid command '{cmd_name}'", end=".")
     except FileNotFoundError:
         print(f"Error: File '{file_name}' not found.")
     except Exception as e:
