@@ -78,6 +78,50 @@ def test_process_commands_file_not_found(capsys):
     # Assertion
     assert "Error: File 'nonexistent_file.txt' not found." in captured.out
 
+
+# Test processing a file that does not exist
+def test_process_commands_file_not_found(capsys):
+    # Try to process a non-existent file
+    process_commands("nonexistent_file.txt")
+
+    # Capture output
+    captured = capsys.readouterr()
+
+    # Assertion
+    assert "Error: File 'nonexistent_file.txt' not found." in captured.out
+
+def test_process_commands_addProd_invalid_argument_types(tmp_path, capsys):
+    commands = """
+    addStore StoreA
+    addProd Apple HIGH five BrandX 1.2 StoreA
+    """
+    command_file = tmp_path / "commands.txt"
+    command_file.write_text(commands.strip())
+
+    process_commands(str(command_file))
+
+    captured = capsys.readouterr()
+
+    # The expected error message includes the line number and exception message
+    assert "invalid literal for int() with base 10: 'five'" in captured.out
+
+
+# Test case to trigger the general Exception
+def test_process_commands_general_exception(tmp_path, capsys):
+    commands = """
+    addStore
+    """
+    command_file = tmp_path / "commands.txt"
+    command_file.write_text(commands.strip())
+
+    # This should cause an IndexError when accessing cmd_args[0], which is not handled explicitly
+    process_commands(str(command_file))
+    captured = capsys.readouterr()
+
+    # The unhandled IndexError should be caught by the general Exception handler
+    assert "An error occurred: list index out of range" in captured.out
+
+
 # Test processing a file with an invalid command
 def test_process_commands_invalid_command(tmp_path, capsys):
     commands = """
@@ -120,6 +164,21 @@ def test_process_commands_editUrg_incorrect_arguments(tmp_path, capsys):
 
     # Adjusted to check for the error message containing the expected prefix
     assert "Error: Incorrect number of arguments for command 'editUrg'." in captured.out
+
+# Test processing a file with incorrect arguments for 'showUrg'
+def test_process_commands_showUrg_incorrect_arguments(tmp_path, capsys):
+    commands = """
+    showUrg HIGH APPLE
+    """
+    command_file = tmp_path / "commands.txt"
+    command_file.write_text(commands.strip())
+
+    process_commands(str(command_file))
+
+    captured = capsys.readouterr()
+
+    # Adjusted to check for the error message containing the expected prefix
+    assert "Error: Incorrect number of arguments for command 'showUrg'." in captured.out
 
 # Test processing multiple commands
 def test_process_commands_multiple_commands(tmp_path, capsys):
@@ -303,6 +362,124 @@ def test_process_commands_findCheapestStore_product_not_found(tmp_path, capsys):
     # Assuming the function prints an error if the product is not found
     assert "Error: Product not found in any store." in captured.out
 
+
+def test_process_commands_findCheapestStore_incorrect_arguments(tmp_path, capsys):
+    commands = """
+    findCheapestStore Apple StoreA
+    """
+    command_file = tmp_path / "commands.txt"
+    command_file.write_text(commands.strip())
+
+    process_commands(str(command_file))
+
+    captured = capsys.readouterr()
+
+    # Expecting error message about incorrect number of arguments
+    assert "Error: Incorrect number of arguments for command 'findCheapestStore'." in captured.out
+
+def test_process_commands_remvProd_incorrect_arguments(tmp_path, capsys):
+    commands = """
+    remvProd Apple StoreA
+    """
+    command_file = tmp_path / "commands.txt"
+    command_file.write_text(commands.strip())
+
+    process_commands(str(command_file))
+
+    captured = capsys.readouterr()
+
+    # Expecting error message about incorrect number of arguments
+    assert "Error: Incorrect number of arguments for command 'remvProd'." in captured.out
+
+def test_process_commands_remvStore_incorrect_arguments(tmp_path, capsys):
+    commands = """
+    remvStore StoreA ExtraArg
+    """
+    command_file = tmp_path / "commands.txt"
+    command_file.write_text(commands.strip())
+
+    process_commands(str(command_file))
+
+    captured = capsys.readouterr()
+
+    # Expecting error message about incorrect number of arguments
+    assert "Error: Incorrect number of arguments for command 'remvStore'." in captured.out
+
+
+def test_process_commands_showUrg_correct_arguments(tmp_path, capsys):
+    commands = """
+    addStore StoreA
+    addStore StoreB
+    addProd Apple HIGH 5 BrandX 1.2 StoreA
+    addProd Banana LOW 5 BrandX 1.0 StoreB
+    showUrg Apple
+    """
+    command_file = tmp_path / "commands.txt"
+    command_file.write_text(commands.strip())
+
+    process_commands(str(command_file))
+
+    captured = capsys.readouterr()
+
+    # Check that 'Apple' is shown as HIGH urgency
+    assert "Apple" in captured.out
+
+def test_process_commands_editPrice_correct_arguments(tmp_path, capsys):
+    commands = """
+    addStore StoreA
+    addProd Apple LOW 5 BrandX 1.2 StoreA
+    editPrice Apple StoreA 1.5
+    findCheapestStore Apple
+    """
+    command_file = tmp_path / "commands.txt"
+    command_file.write_text(commands.strip())
+
+    process_commands(str(command_file))
+
+    captured = capsys.readouterr()
+
+    # Check that 'Apple' price is updated to 1.5
+    assert "StoreA" in captured.out
+    assert "1.5" in captured.out
+
+
+def test_process_commands_editUrg_invalid_urgency_level(tmp_path, capsys):
+    commands = """
+    addStore StoreA
+    addProd Apple LOW 5 BrandX 1.2 StoreA
+    editUrg Apple URGENT
+    show
+    """
+    command_file = tmp_path / "commands.txt"
+    command_file.write_text(commands.strip())
+
+    process_commands(str(command_file))
+
+    captured = capsys.readouterr()
+
+    # Assuming `editUrg` function prints "Error: Invalid urgency level."
+    assert "Error: Invalid urgency level." in captured.out
+
+    # Ensure that 'Apple' urgency remains unchanged
+    assert "LOW" in captured.out
+    assert "URGENT" not in captured.out
+
+
+def test_process_commands_addBrand_incorrect_arguments(tmp_path, capsys):
+    commands = """
+    addBrand Apple BrandX ExtraArg
+    """
+    command_file = tmp_path / "commands.txt"
+    command_file.write_text(commands.strip())
+
+    process_commands(str(command_file))
+
+    captured = capsys.readouterr()
+
+    # Expecting error message about incorrect number of arguments
+    assert "Error: Incorrect number of arguments for command 'addBrand'." in captured.out
+
+
 # Test processing a file with multiple errors
 def test_process_commands_multiple_errors(tmp_path, capsys):
     commands = """
@@ -322,3 +499,5 @@ def test_process_commands_multiple_errors(tmp_path, capsys):
     assert "Error: Incorrect number of arguments for command 'addProd'." in errors[0]
     assert "Error: Incorrect number of arguments for command 'editQuantity'." in errors[1]
     assert "Error: Invalid command 'unknownCommand'." in errors[2]
+
+

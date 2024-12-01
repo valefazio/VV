@@ -20,17 +20,30 @@ def setup_data():
     addProd("Apple", "HIGH", 5, "BrandX", 1.2, "StoreA")
     addProd("Apple", "HIGH", 5, "BrandX", 1.0, "StoreB")
     addProd("Banana", "LOW", 10, "BrandY", 0.5, "StoreA")
+    addProd("Orange", "LOW", 10, "BrandY", 0.5, "StoreB")
     return
 
-# Test removing a product from the cart
-def test_remvProd(setup_data):
+
+# Test removing a store to get full branch cov
+def test_remove_store():
     remvProd("Apple")
-    assert len(Cart) == 1
-    assert Cart[0].ProductName == "Banana"
+    remvProd("Orange")
+    remvStore("StoreB")
+    assert "StoreB" not in Stores
 
 
-def test_remvProd2(setup_data):
-    remvProd("Banana")
-    assert len(Cart) == 1
-    assert Cart[0].ProductName == "Apple"
+
+# Test removing a store which is no present
+def test_remove_store_notPresent(capsys):
+    remvStore("StoreC")
+    captured = capsys.readouterr()
+    assert "Error: Store not found." in captured.out
+
+
+
+# Test removing a store with proct
+def test_remove_store_withProducts(setup_data,capsys):
+    remvStore("StoreA")
+    captured = capsys.readouterr()
+    assert "Error: Store has products in cart." in captured.out    
 
