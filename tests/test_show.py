@@ -4,7 +4,6 @@ from project.micarrito import *  # Import functions from the file where they are
 from tests.utils import *
 
 
-
 # Sample data setup for testing
 @pytest.fixture
 def setup_data():

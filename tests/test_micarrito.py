@@ -35,7 +35,7 @@ def test_same_data(setup_data):
     assert Cart[1].ProductName == "Banana"
     assert any(Stores[i] == "StoreA" for i in range(len(Stores)))
     assert any(Stores[i] == "StoreB" for i in range(len(Stores)))
-    assert len(StorePrices) == 2
+    assert len(StorePrices) == 3
 
 
 # Test adding a product to the cart

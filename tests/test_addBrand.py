@@ -3,6 +3,8 @@ from dataclasses import dataclass
 from project.micarrito import *  # Import functions from the file where they are defined
 from tests.utils import *
 
+
+
 # Sample data setup for testing
 @pytest.fixture
 def setup_data():
@@ -22,17 +24,35 @@ def setup_data():
 
 
 
+    
 
-# Test adding a product to the cart without stores
-def test_addStore_existing(setup_data,capsys):
-    addStore("StoreA")
+
+
+# Test adding a brand with no Cart
+def test_addBrand_noCart(capsys):
+    clear_data()
+    addBrand("Apple","BrandY")
     captured = capsys.readouterr()
 
-    assert "Error: Store already exists." in captured.out
+    assert "Error: Product not found in cart." in captured.out
+
+
+# Test adding a brand
+def test_addBrand(setup_data):
+    addBrand("Apple","BrandY")
+    
+    assert any(brand.ProductName == "Apple" and brand.Brand == "BrandY"  for brand in Brands)
+
+
+def test_addBrand_sameBrand(setup_data,capsys):
+
+    addBrand("Apple","BrandX")
+    captured = capsys.readouterr()
+
+    assert "Error: Brand already exists for this product." in captured.out
 
 
 
-# Test adding a store
-def test_addStore():
-    addStore("StoreC")
-    assert "StoreC" in Stores
+# I get 95% because it always enters the last branch , 
+# just take out the last if statement
+
