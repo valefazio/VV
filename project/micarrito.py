@@ -98,10 +98,13 @@ def addProd (ProductName, UrgencyLevel, Quantity, BrandName, Price, StoreName):
 		return
 	if(UrgencyLevel != "LOW" and UrgencyLevel != "MEDIUM" and UrgencyLevel != "HIGH"):
 		print("Error: Invalid urgency level.")
+		return
 	elif(Quantity < 0):
 		print("Error: Invalid quantity.")
+		return
 	elif(Price < 0):
 		print("Error: Invalid price.")
+		return
 	elif(Stores.count(StoreName) == 0):
 		print("Error: Store not found.")
 		return
@@ -276,19 +279,19 @@ def process_commands(file_name):
                         elif cmd_name == "showUrg":
                             # Expecting one argument: UrgencyLevel
                             if len(cmd_args) != 1:
-                                print(f"Error: Incorrect number of arguments for command '{cmd_name}' on line {line_number}.")
+                                print(f"Error: Incorrect number of arguments for command '{cmd_name}'", end=".")
                                 continue
                             urgency_level = cmd_args[0].upper()
                             func(urgency_level)
                         elif cmd_name == "findCheapestStore":
                             if len(cmd_args) != 1:
-                                print(f"Error: Incorrect number of arguments for command '{cmd_name}' on line {line_number}.")
+                                print(f"Error: Incorrect number of arguments for command '{cmd_name}'", end=".")
                                 continue
                             func(cmd_args[0])
                         elif cmd_name == "addProd":
                             # Expecting six arguments: ProductName, UrgencyLevel, Quantity, Brand, Price, StoreName
                             if len(cmd_args) != 6:
-                                print(f"Error: Incorrect number of arguments for command '{cmd_name}' on line {line_number}.")
+                                print(f"Error: Incorrect number of arguments for command '{cmd_name}'", end=".")
                                 continue
                             try:
                                 product_name = cmd_args[0]
@@ -303,7 +306,7 @@ def process_commands(file_name):
                         elif cmd_name == "editUrg":
                             # Expecting two arguments: ProductName, UrgencyLevel
                             if len(cmd_args) != 2:
-                                print(f"Error: Incorrect number of arguments for command '{cmd_name}' on line {line_number}.")
+                                print(f"Error: Incorrect number of arguments for command '{cmd_name}'", end=".")
                                 continue
                             product_name = cmd_args[0]
                             urgency_level = cmd_args[1].upper()
@@ -311,18 +314,18 @@ def process_commands(file_name):
                         elif cmd_name == "editQuantity":
                             # Expecting two arguments: ProductName, Quantity
                             if len(cmd_args) != 2:
-                                print(f"Error: Incorrect number of arguments for command '{cmd_name}' on line {line_number}.")
+                                print(f"Error: Incorrect number of arguments for command '{cmd_name}'", end=".")
                                 continue
                             product_name = cmd_args[0]
                             try:
                                 quantity = int(cmd_args[1])
                                 func(product_name, quantity)
                             except ValueError as e:
-                                print(f"Error: Invalid quantity for command '{cmd_name}' on line {line_number}. {e}")
+                                print(f"Error: Invalid quantity for command '{cmd_name}'", end=".")
                         elif cmd_name == "editPrice":
                             # Expecting three arguments: ProductName, StoreName, Price
                             if len(cmd_args) != 3:
-                                print(f"Error: Incorrect number of arguments for command '{cmd_name}' on line {line_number}.")
+                                print(f"Error: Incorrect number of arguments for command '{cmd_name}'", end=".")
                                 continue
                             product_name = cmd_args[0]
                             store_name = cmd_args[1]
@@ -330,18 +333,18 @@ def process_commands(file_name):
                                 price = float(cmd_args[2])
                                 func(product_name, store_name, price)
                             except ValueError as e:
-                                print(f"Error: Invalid price for command '{cmd_name}' on line {line_number}. {e}")
+                                print(f"Error: Invalid price for command '{cmd_name}'", end=".")
                         elif cmd_name in ["addStore", "remvStore"]:
                             # Expecting one argument: StoreName
                             if len(cmd_args) != 1:
-                                print(f"Error: Incorrect number of arguments for command '{cmd_name}' on line {line_number}.")
+                                print(f"Error: Incorrect number of arguments for command '{cmd_name}'", end=".")
                                 continue
                             store_name = cmd_args[0]
                             func(store_name)
                         elif cmd_name == "addBrand":
                             # Expecting two arguments: ProductName, BrandName
                             if len(cmd_args) != 2:
-                                print(f"Error: Incorrect number of arguments for command '{cmd_name}' on line {line_number}.")
+                                print(f"Error: Incorrect number of arguments for command '{cmd_name}'", end=".")
                                 continue
                             product_name = cmd_args[0]
                             brand = cmd_args[1]
@@ -349,12 +352,12 @@ def process_commands(file_name):
                         elif cmd_name == "remvProd":
                             # Expecting one argument: ProductName
                             if len(cmd_args) != 1:
-                                print(f"Error: Incorrect number of arguments for command '{cmd_name}' on line {line_number}.")
+                                print(f"Error: Incorrect number of arguments for command '{cmd_name}'", end=".")
                                 continue
                             product_name = cmd_args[0]
                             func(product_name)
                     except TypeError as e:
-                        print(f"Error: Incorrect arguments for command '{cmd_name}'")
+                        print(f"Error: Incorrect number of arguments for command '{cmd_name}'")
                 else:
                     print(f"Error: Invalid command '{cmd_name}'", end=".")
     except FileNotFoundError:

@@ -104,7 +104,7 @@ def test_process_commands_incorrect_arguments_addProd(tmp_path, capsys):
 
     captured = capsys.readouterr()
 
-    assert "Error: Incorrect arguments for command 'addProd'." in captured.out
+    assert "Error: Incorrect number of arguments for command 'addProd'." in captured.out
 
 # Test processing a file with invalid urgency level in 'addProd'
 def test_process_commands_invalid_urgency_level(tmp_path, capsys):
@@ -135,7 +135,7 @@ def test_process_commands_editUrg_incorrect_arguments(tmp_path, capsys):
     captured = capsys.readouterr()
 
     # Adjusted to check for the error message containing the expected prefix
-    assert "Error: Incorrect arguments for command 'editUrg'." in captured.out
+    assert "Error: Incorrect number of arguments for command 'editUrg'." in captured.out
 
 # Test processing multiple commands
 def test_process_commands_multiple_commands(tmp_path, capsys):
@@ -207,7 +207,7 @@ def test_process_commands_editQuantity_invalid_quantity(tmp_path, capsys):
 
     captured = capsys.readouterr()
 
-    assert "Error: Incorrect arguments for command 'editQuantity'." in captured.out
+    assert "Error: Incorrect number of arguments for command 'editQuantity'." in captured.out
 
 # Test processing 'editQuantity' for a product not in cart
 def test_process_commands_editQuantity_product_not_found(tmp_path, capsys):
@@ -235,7 +235,7 @@ def test_process_commands_editPrice_incorrect_arguments(tmp_path, capsys):
 
     captured = capsys.readouterr()
 
-    assert "Error: Incorrect arguments for command 'editPrice'." in captured.out
+    assert "Error: Incorrect number of arguments for command 'editPrice'." in captured.out
 
 # Test processing 'remvProd' for a product not in cart
 def test_process_commands_remvProd_product_not_found(tmp_path, capsys):
@@ -334,7 +334,7 @@ def test_process_commands_addStore_type_error(tmp_path, capsys):
 
     captured = capsys.readouterr()
 
-    assert "Error: Incorrect arguments for command 'addStore'." in captured.out
+    assert "Error: Incorrect number of arguments for command 'addStore'." in captured.out
 
 # Test processing 'editPrice' with invalid price
 def test_process_commands_editPrice_invalid_price(tmp_path, capsys):
@@ -350,7 +350,7 @@ def test_process_commands_editPrice_invalid_price(tmp_path, capsys):
 
     captured = capsys.readouterr()
 
-    assert "Error: Incorrect arguments for command 'editPrice'." in captured.out
+    assert "Error: Incorrect number of arguments for command 'editPrice'." in captured.out
 
 # Test processing 'findCheapestStore' with product not in any store
 def test_process_commands_findCheapestStore_product_not_found(tmp_path, capsys):
@@ -383,6 +383,6 @@ def test_process_commands_multiple_errors(tmp_path, capsys):
 
     errors = captured.out.strip().split('\n')
     assert len(errors) == 3
-    assert "Error: Incorrect arguments for command 'addProd'." in errors[0]
-    assert "Error: Incorrect arguments for command 'editQuantity'." in errors[1]
+    assert "Error: Incorrect number of arguments for command 'addProd'." in errors[0]
+    assert "Error: Incorrect number of arguments for command 'editQuantity'." in errors[1]
     assert "Error: Invalid command 'unknownCommand'." in errors[2]
