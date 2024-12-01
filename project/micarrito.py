@@ -4,7 +4,7 @@ from dataclasses import dataclass
 @dataclass
 class Product:
     ProductName: str
-    UrgencyLevel: {"LOW", "MEDIUM", "HIGH"}
+    UrgencyLevel: str
     Quantity: int
 
 @dataclass
@@ -46,6 +46,7 @@ def show (CartName):
 	if(len(CartName) == 0):
 		print("Cart is empty.")
 		return
+	print("CART:")
 	totalPrice = 0.0
 	for i in range(len(Cart)):
 		print(f"Product: {Cart[i].ProductName}, Urgency Level: {Cart[i].UrgencyLevel}, Quantity: {Cart[i].Quantity}")
@@ -230,7 +231,6 @@ def addBrand (ProductName, BrandName):
 			found = 1
 	if(found == 0):
 		print("Error: Product not found in cart.")
-		return
 	else:
 		Brands.append(Brand(ProductName, BrandName))
 		print(f"Brand {BrandName} correctly added to product {ProductName}.")
@@ -238,21 +238,21 @@ def addBrand (ProductName, BrandName):
 import sys
 
 def process_commands(file_name):
-	try:
-		with open(file_name, 'r') as file:
-			commands = file.readlines()
+    try:
+        with open(file_name, 'r') as file:
+            commands = file.readlines()
 
-			for command in commands:
-				# Strip whitespace and split into command and arguments
-				command_parts = command.strip().split()
-				if not command_parts:
-					continue  # Skip empty lines
-                
-				cmd_name = command_parts[0]
-				cmd_args = command_parts[1:]
+            for line_number, command in enumerate(commands, start=1):
+                # Strip whitespace and split into command and arguments
+                command_parts = command.strip().split()
+                if not command_parts:
+                    continue  # Skip empty lines
 
-				# Define the command-to-function mapping
-				switcher = {
+                cmd_name = command_parts[0]
+                cmd_args = command_parts[1:]
+
+                # Define the command-to-function mapping
+                switcher = {
                     "show": show,
                     "addProd": addProd,
                     "showUrg": showUrg,
@@ -262,69 +262,106 @@ def process_commands(file_name):
                     "editPrice": editPrice,
                     "addStore": addStore,
                     "remvStore": remvStore,
-					"findCheapestStore": findCheapestStore,
-					"addBrand": addBrand
-				}
+                    "findCheapestStore": findCheapestStore,
+                    "addBrand": addBrand
+                }
 
-				# Get the function from the switcher
-				func = switcher.get(cmd_name)
-				if func:
-					try:
-						# Call the function with unpacked arguments
-						if cmd_name == "show" or cmd_name == "showUrg":
-							func(Cart)
-						elif cmd_name == "findCheapestStore":
-							func(*cmd_args)
-						elif cmd_name == "addProd":
-							# Parse arguments: ProductName, UrgencyLevel, Quantity, Brand, Price, StoreName
-							try:
-								product_name = cmd_args[0]
-								urgency_level = cmd_args[1].upper()  # Ensure urgency level is uppercase
-								quantity = int(cmd_args[2])
-								brand = cmd_args[3]
-								price = float(cmd_args[4])
-								store_name = cmd_args[5]
-								func(product_name, urgency_level, quantity, brand, price, store_name)
-							except (ValueError, IndexError) as e:
-								print(f"Error: Incorrect arguments for command '{cmd_name}'. {e}")
-						elif cmd_name == "editUrg":
-							# Parse arguments: ProductName, UrgencyLevel
-							product_name = cmd_args[0]
-							urgency_level = cmd_args[1].upper()
-							func(product_name, urgency_level)
-						elif cmd_name == "editQuantity":
-							# Parse arguments: ProductName, Quantity
-							product_name = cmd_args[0]
-							quantity = int(cmd_args[1])
-							func(product_name, quantity)
-						elif cmd_name == "editPrice":
-							# Parse arguments: ProductName, StoreName, Price
-							product_name = cmd_args[0]
-							store_name = cmd_args[1]
-							price = float(cmd_args[2])
-							func(product_name, store_name, price)
-						elif cmd_name == "addStore" or cmd_name == "remvStore":
-							# Parse arguments: StoreName
-							store_name = cmd_args[0]
-							func(store_name)
-						elif cmd_name == "addBrand":
-							# Parse arguments: ProductName, Brand
-							product_name = cmd_args[0]
-							brand = cmd_args[1]
-							func(product_name, brand)
-						elif cmd_name == "remvProd":
-							# Parse arguments: ProductName
-							product_name = cmd_args[0]
-							func(product_name)							
-					except TypeError as e:
-						print(f"Error: Incorrect arguments for command '{cmd_name}'. {e}")
-				else:
-					print(f"Error: Invalid command '{cmd_name}'.")
+                # Get the function from the switcher
+                func = switcher.get(cmd_name)
+                if func:
+                    try:
+                        # Call the function with unpacked arguments
+                        if cmd_name == "show":
+                            func(Cart)
+                        elif cmd_name == "showUrg":
+                            # Expecting one argument: UrgencyLevel
+                            if len(cmd_args) != 1:
+                                print(f"Error: Incorrect number of arguments for command '{cmd_name}' on line {line_number}.")
+                                continue
+                            urgency_level = cmd_args[0].upper()
+                            func(urgency_level)
+                        elif cmd_name == "findCheapestStore":
+                            if len(cmd_args) != 1:
+                                print(f"Error: Incorrect number of arguments for command '{cmd_name}' on line {line_number}.")
+                                continue
+                            func(cmd_args[0])
+                        elif cmd_name == "addProd":
+                            # Expecting six arguments: ProductName, UrgencyLevel, Quantity, Brand, Price, StoreName
+                            if len(cmd_args) != 6:
+                                print(f"Error: Incorrect number of arguments for command '{cmd_name}' on line {line_number}.")
+                                continue
+                            try:
+                                product_name = cmd_args[0]
+                                urgency_level = cmd_args[1].upper()  # Ensure urgency level is uppercase
+                                quantity = int(cmd_args[2])
+                                brand = cmd_args[3]
+                                price = float(cmd_args[4])
+                                store_name = cmd_args[5]
+                                func(product_name, urgency_level, quantity, brand, price, store_name)
+                            except ValueError as e:
+                                print(f"Error: Invalid argument types for command '{cmd_name}' on line {line_number}. {e}")
+                        elif cmd_name == "editUrg":
+                            # Expecting two arguments: ProductName, UrgencyLevel
+                            if len(cmd_args) != 2:
+                                print(f"Error: Incorrect number of arguments for command '{cmd_name}' on line {line_number}.")
+                                continue
+                            product_name = cmd_args[0]
+                            urgency_level = cmd_args[1].upper()
+                            func(product_name, urgency_level)
+                        elif cmd_name == "editQuantity":
+                            # Expecting two arguments: ProductName, Quantity
+                            if len(cmd_args) != 2:
+                                print(f"Error: Incorrect number of arguments for command '{cmd_name}' on line {line_number}.")
+                                continue
+                            product_name = cmd_args[0]
+                            try:
+                                quantity = int(cmd_args[1])
+                                func(product_name, quantity)
+                            except ValueError as e:
+                                print(f"Error: Invalid quantity for command '{cmd_name}' on line {line_number}. {e}")
+                        elif cmd_name == "editPrice":
+                            # Expecting three arguments: ProductName, StoreName, Price
+                            if len(cmd_args) != 3:
+                                print(f"Error: Incorrect number of arguments for command '{cmd_name}' on line {line_number}.")
+                                continue
+                            product_name = cmd_args[0]
+                            store_name = cmd_args[1]
+                            try:
+                                price = float(cmd_args[2])
+                                func(product_name, store_name, price)
+                            except ValueError as e:
+                                print(f"Error: Invalid price for command '{cmd_name}' on line {line_number}. {e}")
+                        elif cmd_name in ["addStore", "remvStore"]:
+                            # Expecting one argument: StoreName
+                            if len(cmd_args) != 1:
+                                print(f"Error: Incorrect number of arguments for command '{cmd_name}' on line {line_number}.")
+                                continue
+                            store_name = cmd_args[0]
+                            func(store_name)
+                        elif cmd_name == "addBrand":
+                            # Expecting two arguments: ProductName, BrandName
+                            if len(cmd_args) != 2:
+                                print(f"Error: Incorrect number of arguments for command '{cmd_name}' on line {line_number}.")
+                                continue
+                            product_name = cmd_args[0]
+                            brand = cmd_args[1]
+                            func(product_name, brand)
+                        elif cmd_name == "remvProd":
+                            # Expecting one argument: ProductName
+                            if len(cmd_args) != 1:
+                                print(f"Error: Incorrect number of arguments for command '{cmd_name}' on line {line_number}.")
+                                continue
+                            product_name = cmd_args[0]
+                            func(product_name)
+                    except TypeError as e:
+                        print(f"Error: Incorrect arguments for command '{cmd_name}' on line {line_number}. {e}")
+                else:
+                    print(f"Error: Invalid command '{cmd_name}' on line {line_number}.")
+    except FileNotFoundError:
+        print(f"Error: File '{file_name}' not found.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
-	except FileNotFoundError:
-		print(f"Error: File '{file_name}' not found.")
-	except Exception as e:
-		print(f"An error occurred: {e}")
 
 def main():
     if len(sys.argv) != 2:

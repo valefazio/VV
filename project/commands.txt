@@ -1,10 +1,7 @@
 addStore StoreA
 addStore StoreB
-
-addProd Apple HIGH 5 BrandX 1.20 StoreA
-addProd Apple HIGH 1 BrandX 1.00 StoreB
-addProd Banana LOW 2 BrandY 0.50 StoreA
-
+addProd Apple HIGH 5 BrandX 1.2 StoreA
+addProd Apple HIGH 5 BrandX 1.0 StoreB
+addProd Banana LOW 10 BrandY 0.5 StoreA
 remvProd Apple
-remvProd Banana
-remvStore StoreA
+show
