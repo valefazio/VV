@@ -214,8 +214,6 @@ def remvStore(StoreName):
 			print(f"Store {StoreName} correctly removed.")
 			#return
 		
-	
-      
 def addBrand (ProductName, BrandName):
 	found = 0
 	for i in range(len(Cart)):
@@ -229,8 +227,6 @@ def addBrand (ProductName, BrandName):
 	else:
 		Brands.append(Brand(ProductName, BrandName))
 		print(f"Brand {BrandName} correctly added to product {ProductName}.")
-
-import sys
 
 def process_commands(file_name):
     try:

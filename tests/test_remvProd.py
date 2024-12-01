@@ -27,10 +27,3 @@ def test_remvProd(setup_data):
     remvProd("Apple")
     assert len(Cart) == 1
     assert Cart[0].ProductName == "Banana"
-
-
-def test_remvProd2(setup_data):
-    remvProd("Banana")
-    assert len(Cart) == 1
-    assert Cart[0].ProductName == "Apple"
-

@@ -32,7 +32,6 @@ def test_remove_store():
     assert "StoreB" not in Stores
 
 
-
 # Test removing a store which is no present
 def test_remove_store_notPresent(capsys):
     remvStore("StoreC")
