@@ -88,17 +88,19 @@ def test_add_store():
     addStore("StoreC")
     assert "StoreC" in Stores
 
-# Test removing a store
-def test_remove_store(setup_data):
-    remvStore("StoreA")
-    assert "StoreA" not in Stores
-
 # Test showing products by urgency level
 def test_show_by_urgency(setup_data, capsys):
     showUrg("HIGH")
     captured = capsys.readouterr()
     assert "Apple" in captured.out
     assert "Banana" not in captured.out
+
+# Test removing a store
+def test_remove_store():
+    remvProd("Apple")
+    remvProd("Banana")
+    remvStore("StoreA")
+    assert "StoreA" not in Stores
 
 
 
