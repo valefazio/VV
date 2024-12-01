@@ -25,37 +25,37 @@ def setup_data():
 def test_addProd_empty_ProductName(setup_data, capsys):
     addProd("", "HIGH", 5, "BrandX", 1.2, "StoreA")
     captured = capsys.readouterr()
-    assert "Error: Product name is empty." in captured.out
+    assert "Error: Invalid Product Name." in captured.out
 
 # Test for empty UrgencyLevel
 def test_addProd_empty_UrgencyLevel(setup_data, capsys):
     addProd("Orange", "", 5, "BrandZ", 0.8, "StoreA")
     captured = capsys.readouterr()
-    assert "Error: Urgency level is empty." in captured.out
+    assert "Error: Invalid urgency level." in captured.out
 
 # Test for empty Quantity
 def test_addProd_empty_Quantity(setup_data, capsys):
     addProd("Orange", "MEDIUM", "", "BrandZ", 0.8, "StoreA")
     captured = capsys.readouterr()
-    assert "Error: Quantity is empty." in captured.out
+    assert "Error: Invalid quantity." in captured.out
 
 # Test for empty BrandName
 def test_addProd_empty_BrandName(setup_data, capsys):
     addProd("Orange", "MEDIUM", 5, "", 0.8, "StoreA")
     captured = capsys.readouterr()
-    assert "Error: Brand is empty." in captured.out
+    assert "Error: Invalid brand." in captured.out
 
 # Test for empty Price
 def test_addProd_empty_Price(setup_data, capsys):
     addProd("Orange", "MEDIUM", 5, "BrandZ", "", "StoreA")
     captured = capsys.readouterr()
-    assert "Error: Price is empty." in captured.out
+    assert "Error: Invalid price." in captured.out
 
 # Test for empty StoreName
 def test_addProd_empty_StoreName(setup_data, capsys):
     addProd("Orange", "MEDIUM", 5, "BrandZ", 0.8, "")
     captured = capsys.readouterr()
-    assert "Error: Store name is empty." in captured.out
+    assert "Error: Invalid store name." in captured.out
 
 # Test for invalid UrgencyLevel
 def test_addProd_invalid_UrgencyLevel(setup_data, capsys):

@@ -207,7 +207,7 @@ def test_process_commands_editQuantity_invalid_quantity(tmp_path, capsys):
 
     captured = capsys.readouterr()
 
-    assert "Error: Incorrect number of arguments for command 'editQuantity'." in captured.out
+    assert "Store StoreA correctly added.\nProduct Apple correctly added to cart.\nError: Invalid quantity for command 'editQuantity'." in captured.out
 
 # Test processing 'editQuantity' for a product not in cart
 def test_process_commands_editQuantity_product_not_found(tmp_path, capsys):
@@ -350,7 +350,7 @@ def test_process_commands_editPrice_invalid_price(tmp_path, capsys):
 
     captured = capsys.readouterr()
 
-    assert "Error: Incorrect number of arguments for command 'editPrice'." in captured.out
+    assert "Store StoreA correctly added.\nProduct Apple correctly added to cart.\nError: Invalid price for command 'editPrice'." in captured.out
 
 # Test processing 'findCheapestStore' with product not in any store
 def test_process_commands_findCheapestStore_product_not_found(tmp_path, capsys):
