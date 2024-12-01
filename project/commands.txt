@@ -1,3 +1,3 @@
 addStore StoreA
-    addProd Apple HIGH 5 BrandX 1.2 StoreA
-    editPrice Apple StoreA invalidPrice
+addProd Apple HIGH 5 BrandX 1.2 StoreA
+show

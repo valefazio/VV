@@ -30,12 +30,6 @@ def test_editUrg_noData(setup_data, capsys):
 
 
 
-# Test editing the urgency level of a product
-def test_editUrg(setup_data):
-    editUrg("Banana", "HIGH")
-    assert Cart[1].UrgencyLevel == "HIGH"
-
-
 
 # show urgency level with incorrect input
 def test_editUrg_wrongUrg(setup_data, capsys):

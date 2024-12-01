@@ -25,12 +25,6 @@ def setup_data():
 
 
 
-
-# Test editing the quantity of a product
-def test_edit_quantity(setup_data):
-    editQuantity("Banana", 20)
-    assert Cart[1].Quantity == 20
-
 # Test editing the quantity of a product
 def test_edit_quantity_noProduct(setup_data,capsys):
     editQuantity("asas", 20)

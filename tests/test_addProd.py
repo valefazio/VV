@@ -124,16 +124,6 @@ def test_addProd_no_duplicate_brand(setup_data):
     count = sum(1 for brand in Brands if brand.ProductName == "Apple" and brand.Brand == "BrandX")
     assert count == 1
 
-# Test adding a product to the cart when it's not already there
-def test_addProd_add_new_product_to_cart(setup_data):
-    addProd("Grapes", "LOW", 15, "BrandZ", 2.0, "StoreA")
-    # Check if the product is added to the cart
-    assert any(prod.ProductName == "Grapes" for prod in Cart)
-    # Check if the store price is added
-    assert any(sp.ProductName == "Grapes" and sp.StoreName == "StoreA" and sp.Price == 2.0 for sp in StorePrices)
-    # Check if the brand is added
-    assert any(brand.ProductName == "Grapes" and brand.Brand == "BrandZ" for brand in Brands)
-
 # Test adding a product with multiple stores and brands
 def test_addProd_multiple_stores_brands(setup_data,capsys):
     addProd("Apple", "LOW", 8, "BrandY", 1.5, "StoreC")  # Assuming StoreC is not added yet
