@@ -64,3 +64,50 @@ def test_main_too_many_arguments(monkeypatch, capsys):
     # Check that usage message is printed
     captured = capsys.readouterr()
     assert "Usage: micarrito <input-file>" in captured.out
+
+
+import subprocess
+import sys
+import os
+from pathlib import Path
+
+# Assuming your script is named 'micarrito.py' and is located in the 'project' directory
+SCRIPT_DIR = Path(__file__).resolve().parent.parent / 'project'
+SCRIPT_NAME = 'micarrito.py'
+
+def test_main_execution(tmp_path):
+    # Create a temporary command file
+    commands = """
+    addStore StoreA
+    addProd Apple HIGH 5 BrandX 1.2 StoreA
+    show
+    """
+    command_file = tmp_path / "commands.txt"
+    command_file.write_text(commands.strip())
+
+    # Build the path to the script
+    script_path = SCRIPT_DIR / SCRIPT_NAME
+
+    # Ensure the script exists
+    assert script_path.exists(), f"Script not found at {script_path}"
+
+    # Run the script as a subprocess with the command file as an argument
+    result = subprocess.run(
+        [sys.executable, str(script_path), str(command_file)],
+        capture_output=True,
+        text=True
+    )
+
+    # Check that the script executed successfully
+    assert result.returncode == 0
+
+    # Capture the output
+    output = result.stdout
+
+    # Assertions to verify the output
+    assert "Store StoreA correctly added." in output
+    assert "Product Apple correctly added to cart." in output
+    assert "Apple" in output
+    assert "HIGH" in output
+    assert "5" in output
+

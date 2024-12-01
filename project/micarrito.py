@@ -200,20 +200,21 @@ def addStore (StoreName):
 	Stores.append(StoreName)
 	print(f"Store {StoreName} correctly added.")
 
-def remvStore (StoreName):
+def remvStore(StoreName):
 	if(Stores.count(StoreName) == 0):
 		print("Error: Store not found.")
 		return
 	for i in Stores[:]:
 		if(StoreName == i):
-			for j in range(len(Cart)):
-				if any(price.StoreName == StoreName for price in StorePrices):
-					print("Error: Store has products in cart.")
-					return
+			#for j in range(len(Cart)):
+			if any(price.StoreName == StoreName for price in StorePrices):
+				print("Error: Store has products in cart.")
+				return
 			Stores.remove(i)
 			print(f"Store {StoreName} correctly removed.")
-			return
-	#print("Error: Store not found.")
+			#return
+		
+	
       
 def addBrand (ProductName, BrandName):
 	found = 0
@@ -263,7 +264,7 @@ def process_commands(file_name):
                 # Get the function from the switcher
                 func = switcher.get(cmd_name)
                 if func:
-                    try:
+                    #try:
                         # Call the function with unpacked arguments
                         if cmd_name == "show":
                             func(Cart)
@@ -340,15 +341,16 @@ def process_commands(file_name):
                             product_name = cmd_args[0]
                             brand = cmd_args[1]
                             func(product_name, brand)
-                        elif cmd_name == "remvProd":
-                            # Expecting one argument: ProductName
+                        #elif cmd_name == "remvProd":
+                        else: 
+						    # Expecting one argument: ProductName
                             if len(cmd_args) != 1:
                                 print(f"Error: Incorrect number of arguments for command '{cmd_name}'.")
                                 continue
                             product_name = cmd_args[0]
                             func(product_name)
-                    except TypeError as e:
-                        print(f"Error: Incorrect number of arguments for command '{cmd_name}'.")
+                    #except TypeError as e:
+                        #print(f"Error: Incorrect number of arguments for command '{cmd_name}'.")
                 else:
                     print(f"Error: Invalid command '{cmd_name}'.", end="")
     except FileNotFoundError:
