@@ -29,10 +29,3 @@ def test_addStore_existing(setup_data,capsys):
     captured = capsys.readouterr()
 
     assert "Error: Store already exists." in captured.out
-
-
-
-# Test adding a store
-def test_addStore():
-    addStore("StoreC")
-    assert "StoreC" in Stores

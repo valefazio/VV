@@ -214,7 +214,7 @@ def remvStore (StoreName):
 			print(f"Store {StoreName} correctly removed.")
 			return
 	#print("Error: Store not found.")
-      
+
 def addBrand (ProductName, BrandName):
 	found = 0
 	for i in range(len(Cart)):

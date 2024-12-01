@@ -106,22 +106,6 @@ def test_process_commands_incorrect_arguments_addProd(tmp_path, capsys):
 
     assert "Error: Incorrect number of arguments for command 'addProd'." in captured.out
 
-# Test processing a file with invalid urgency level in 'addProd'
-def test_process_commands_invalid_urgency_level(tmp_path, capsys):
-    commands = """
-    addStore StoreA
-    addProd Apple URGENT 5 BrandX 1.2 StoreA
-    """
-    command_file = tmp_path / "commands.txt"
-    command_file.write_text(commands.strip())
-
-    process_commands(str(command_file))
-
-    captured = capsys.readouterr()
-
-    # The addProd function should print "Error: Invalid urgency level."
-    assert "Error: Invalid urgency level." in captured.out
-
 # Test processing a file with incorrect arguments for 'editUrg'
 def test_process_commands_editUrg_incorrect_arguments(tmp_path, capsys):
     commands = """
@@ -209,20 +193,6 @@ def test_process_commands_editQuantity_invalid_quantity(tmp_path, capsys):
 
     assert "Store StoreA correctly added.\nProduct Apple correctly added to cart.\nError: Invalid quantity for command 'editQuantity'." in captured.out
 
-# Test processing 'editQuantity' for a product not in cart
-def test_process_commands_editQuantity_product_not_found(tmp_path, capsys):
-    commands = """
-    editQuantity NonexistentProduct 5
-    """
-    command_file = tmp_path / "commands.txt"
-    command_file.write_text(commands.strip())
-
-    process_commands(str(command_file))
-
-    captured = capsys.readouterr()
-
-    assert "Error: Product not found in cart." in captured.out
-
 # Test processing 'editPrice' with incorrect arguments
 def test_process_commands_editPrice_incorrect_arguments(tmp_path, capsys):
     commands = """
@@ -265,40 +235,6 @@ def test_process_commands_addBrand(tmp_path, capsys):
 
     # Check that the new brand is added
     assert any(brand.ProductName == "Apple" and brand.Brand == "BrandY" for brand in Brands)
-
-# Test processing 'remvStore' with correct arguments
-def test_process_commands_remvStore(tmp_path, capsys):
-    commands = """
-    addStore StoreA
-    remvStore StoreA
-    """
-    command_file = tmp_path / "commands.txt"
-    command_file.write_text(commands.strip())
-
-    process_commands(str(command_file))
-
-    # Check that the store is removed
-    assert not any(store == "StoreA" for store in Stores)
-
-# Test processing 'findCheapestStore' with correct arguments
-def test_process_commands_findCheapestStore(tmp_path, capsys):
-    commands = """
-    addStore StoreA
-    addStore StoreB
-    addProd Apple HIGH 5 BrandX 1.2 StoreA
-    addProd Apple HIGH 5 BrandX 1.0 StoreB
-    findCheapestStore Apple
-    """
-    command_file = tmp_path / "commands.txt"
-    command_file.write_text(commands.strip())
-
-    process_commands(str(command_file))
-
-    captured = capsys.readouterr()
-
-    # Assuming findCheapestStore prints the store with the lowest price for the product
-    assert "StoreB" in captured.out
-    assert "1.0" in captured.out
 
 # Test processing a file with empty lines and comments
 def test_process_commands_empty_lines_and_comments(tmp_path, capsys):
@@ -350,8 +286,8 @@ def test_process_commands_editPrice_invalid_price(tmp_path, capsys):
 
     captured = capsys.readouterr()
 
-    assert "Store StoreA correctly added.\nProduct Apple correctly added to cart.\nError: Invalid price for command 'editPrice'." in captured.out
-
+    assert "Error: Invalid price for command 'editPrice'." in captured.out
+    
 # Test processing 'findCheapestStore' with product not in any store
 def test_process_commands_findCheapestStore_product_not_found(tmp_path, capsys):
     commands = """

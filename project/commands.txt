@@ -1,3 +1,20 @@
-addStore StoreA
-addProd Apple HIGH 5 BrandX 1.2 StoreA
+addStore SuperMart
+addStore GroceryHub
+addStore QuickShop
+addProd Apples HIGH 3 FreshFarms 1.2 SuperMart
+addProd Bananas MEDIUM 5 TropicalHarvest 0.8 GroceryHub
+addProd Bread LOW 2 Baker'sChoice 2.5 QuickShop
+
+showUrg HIGH
+showUrg MEDIUM
+showUrg LOW
+findCheapestStore Apples
+findCheapestStore Bananas
+editUrg Apples MEDIUM
+editQuantity Bananas 10
+editPrice Bread QuickShop 2.0
 show
+addBrand Apples GoldenHarvest
+remvProd Bread
+show
+remvStore QuickShop

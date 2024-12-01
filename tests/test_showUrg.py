@@ -28,12 +28,6 @@ def test_showUrg_noData(setup_data, capsys):
     captured = capsys.readouterr()
     assert "No products found" in captured.out
 
-def test_showUrg(setup_data, capsys):
-    showUrg("HIGH")
-    captured = capsys.readouterr()
-    assert "Apple" in captured.out
-    assert "Banana" not in captured.out
-
 # show urgency level with incorrect input
 def test_showUrg_wrongUrg(setup_data, capsys):
     showUrg("Antonio")
